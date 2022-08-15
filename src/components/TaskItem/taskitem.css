@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.taskitem label{
+    color: #666666;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 32px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 15px 0 15px 0;
+    padding: 10px 0 10px 0;
+}
+
+.taskitem button{
+    justify-content: end;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+.taskitem {
+    display: flex;
+    border-bottom: 1px solid #E5E5E5;
+
+}
+
+.taskitem:last-child{
+    border: none;
+}
+
+.completed{
+    color: #ACACAC;
+}
+
+
+.taskitem input[type=checkbox] {
+    position: relative;
+    cursor: pointer;
+    margin-right: 35px;
+}
+.taskitem input[type=checkbox]:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: -5px;
+    left: 0;
+    background-color:white;
+    border: 3px solid #008594;
+    border-radius: 3px;
+}
+.taskitem input[type=checkbox]:checked:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background-color:#008594;
+}
+.taskitem input[type=checkbox]:checked:after {
+    content: "";
+    display: block;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    position: absolute;
+    top: -2px;
+    left: 8px;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .taskitem label {
+        word-wrap: break-word;
+    }
+}

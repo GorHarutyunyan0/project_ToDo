@@ -1,23 +1,73 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import FormTask from "./components/FormTask";
+import { useEffect, useState } from "react";
+import FilterCompleted from "./components/FilterCompleted";
+import TaskList from "./components/TaskList";
+import TaskPage from "./components/TaskPage";
+import DeleteModal from "./components/DeletModal";
 
 function App() {
+  const [tasks, setTasks] = useState(
+    JSON.parse(localStorage.getItem("tasks")) || []
+  );
+  const [hideCompleted, setHideCompleted] = useState(false);
+  const [deletedTaskId, setDeletedTaskId] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {tasks.length ? (
+        <FilterCompleted
+          tasks={tasks}
+          hideCompleted={hideCompleted}
+          setHideCompleted={setHideCompleted}
+        />
+      ) : null}
+      <FormTask
+        onAdd={(value) => {
+          setTasks([
+            ...tasks,
+            {
+              id: Math.random(),
+              text: value,
+              isCompleted: false,
+            },
+          ]);
+        }}
+      />
+      {!tasks.length ? (
+        <TaskPage />
+      ) : (
+        <TaskList
+          setDeletedTaskId={setDeletedTaskId}
+          hideCompleted={hideCompleted}
+          onChange={(taskId, newTask) => {
+            setTasks(
+              tasks.map((task) => {
+                if (task.id === taskId) {
+                  return newTask;
+                }
+
+                return task;
+              })
+            );
+          }}
+          tasks={tasks}
+        />
+      )}
+      {deletedTaskId && (
+        <DeleteModal
+          onDelete={() => {
+            setTasks(tasks.filter((task) => deletedTaskId !== task.id));
+            setDeletedTaskId(null);
+          }}
+          onHide={() => setDeletedTaskId(null)}
+        />
+      )}
     </div>
   );
 }
